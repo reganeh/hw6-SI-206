@@ -127,11 +127,14 @@ def get_starships(filename):
     '''
     star_dict = load_json(filename)
     starship_char_dict = {}
-    for starship in star_dict:
-        name = starship["name"]
-        url = starship["starship"]
-        dataforperson = get_swapi_info(url)
-        starship_char_dict[name] = dataforperson
+    for character in star_dict.values():
+        name = character["name"]
+        starships = []
+        for starshipurl in character.get("starships"):
+            starship_data = get_swapi_info(starshipurl)
+            if starship_data:
+                starships.append(starship_data["name"])
+        starship_char_dict[name] = starships
     return starship_char_dict
 
 
@@ -180,11 +183,11 @@ class TestHomework6(unittest.TestCase):
         swapi_people = load_json(self.filename)
         self.assertEqual(type(swapi_people['page 1']), list)
 
-    # def test_get_starships(self):
-    #     starships = get_starships(self.filename)
-    #     self.assertEqual(len(starships), 19)
-    #     self.assertEqual(type(starships["Luke Skywalker"]), list)
-    #     self.assertEqual(starships['Biggs Darklighter'][0], 'X-wing')
+    def test_get_starships(self):
+        starships = get_starships(self.filename)
+        self.assertEqual(len(starships), 19)
+        self.assertEqual(type(starships["Luke Skywalker"]), list)
+        self.assertEqual(starships['Biggs Darklighter'][0], 'X-wing')
 
     # def test_calculate_bmi(self):
     #     bmi = calculate_bmi(self.filename)
