@@ -4,7 +4,7 @@ import unittest
 import os
 ###########################################
 # Your name: Regan Henderson                            #
-# Who you worked with:                    #
+# Who you worked with: Summer Daniel                    #
 ###########################################
 
 def load_json(filename):
